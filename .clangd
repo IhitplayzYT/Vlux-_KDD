@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - "-I/usr/lib/modules/$(uname -r)/build/include"
+    - "-I/usr/lib/modules/$(uname -r)/build/include/generated"
+    - "-I/usr/lib/modules/$(uname -r)/build/arch/x86/include"
+    - "-I/usr/lib/modules/$(uname -r)/build/arch/x86/include/generated"
+    - "-D__KERNEL__"
+    - "-DMODULE"
