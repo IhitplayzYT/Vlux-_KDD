@@ -1,54 +1,42 @@
-#include "linux/minmax.h"
-#include "linux/sched.h"
+#include "proc_read.h"
+#include "asm-generic/errno-base.h"
+#include "linux/elf.h"
 #include "linux/types.h"
-#include <linux/fs.h>
-#include <linux/init.h>
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/sched/signal.h>
-#include <linux/uaccess.h>
-#include <stdio.h>
-
-#define kprintf(s, ...) printk(s##"\n", __VA_ARGS__);
-#define LOG(a, b) printk("<1>[%s] %s\n", (a), (b))
-#define WARN(a, b) printk(KERN_WARN "[%s] %s\n", (a), (b))
-#define DEBUG(a, b) printk(KERN_DEBUG "[%s] %s\n", (a), (b))
-#define EP_name "vlux"
-#define BUFF_SZ 4096
-
-MODULE_AUTHOR("Ihit R Acharya");
-MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("A module to retrive detailed kernel Proc list");
+#include "linux/uaccess.h"
 
 static int major_id;
 static char buff[BUFF_SZ];
 static int cur_pos = 0;
 
-static int update_proc_tree(struct inode *ino, struct file *) {
+static int update_proc_tree(struct inode *ino, struct file *fp) {
 
   struct task_struct *task;
-  for_each_process(task) {
-    int len = snprintf(b, unsigned long, const char *restrict, ...)
-  }
+  for_each_process(task) { /* Fmt the data from kernel */ }
+  return 0;
 }
 
-static ssize_t get_proc_tree(struct file *fp, char __user *usr, size_t cnt,
+static ssize_t get_proc_tree(struct file *fp, char __user *usr, size_t mx_cpy,
                              loff_t *offset) {
-  ssize_t rem = BUFF_SZ - cur_pos;
-  ssize_t bytesleft = min(cnt, rem);
-  if (bytesleft <= 0)
+  ssize_t remaining = BUFF_SZ - cur_pos;
+  if (*offset >= BUFF_SZ) {
     return 0;
+  }
 
-  if (copy_to_user(usr, buff + cur_pos, bytesleft)) {
+  if (copy_to_user(usr, buff, remaining <= mx_cpy ? remaining : mx_cpy)) {
     return -EFAULT;
   }
-  cur_pos += bytesleft;
-  return bytesleft;
+
+  return 0;
 }
+
+static ssize_t get_entry(struct file *fd, const char __user *target, size_t len,
+                         loff_t *off) {
+
+  return 0;
+}
+
 static struct file_operations fops = {
-    .read = get_proc_tree,
-    .open = update_proc_tree,
-};
+    .read = get_proc_tree, .open = update_proc_tree, .write = get_entry};
 
 static int __init init(void) {
   major_id = register_chrdev(0, EP_name, &fops);
