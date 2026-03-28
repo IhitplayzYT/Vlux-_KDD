@@ -1078,6 +1078,101 @@ deps_proc_read.o := \
     $(wildcard include/config/UNWINDER_ORC) \
   /usr/lib/modules/6.18.19-1-lts/build/include/asm-generic/module.h \
     $(wildcard include/config/HAVE_MOD_ARCH_SPECIFIC) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/fdtable.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/ns_common.h \
+    $(wildcard include/config/IPC_NS) \
+    $(wildcard include/config/NET_NS) \
+    $(wildcard include/config/PID_NS) \
+    $(wildcard include/config/TIME_NS) \
+    $(wildcard include/config/UTS_NS) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/nsproxy.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/cgroup_namespace.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/ipc_namespace.h \
+    $(wildcard include/config/CHECKPOINT_RESTORE) \
+    $(wildcard include/config/POSIX_MQUEUE) \
+    $(wildcard include/config/POSIX_MQUEUE_SYSCTL) \
+    $(wildcard include/config/SYSVIPC_SYSCTL) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/mnt_namespace.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/pid_namespace.h \
+    $(wildcard include/config/MEMFD_CREATE) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/mm.h \
+    $(wildcard include/config/HAVE_ARCH_MMAP_RND_BITS) \
+    $(wildcard include/config/HAVE_ARCH_MMAP_RND_COMPAT_BITS) \
+    $(wildcard include/config/ARCH_USES_HIGH_VMA_FLAGS) \
+    $(wildcard include/config/ARCH_HAS_PKEYS) \
+    $(wildcard include/config/ARCH_PKEY_BITS) \
+    $(wildcard include/config/ARM64_GCS) \
+    $(wildcard include/config/PARISC) \
+    $(wildcard include/config/SPARC64) \
+    $(wildcard include/config/ARM64_MTE) \
+    $(wildcard include/config/HAVE_ARCH_USERFAULTFD_MINOR) \
+    $(wildcard include/config/PPC32) \
+    $(wildcard include/config/FIND_NORMAL_PAGE) \
+    $(wildcard include/config/SHMEM) \
+    $(wildcard include/config/HAVE_GIGANTIC_FOLIOS) \
+    $(wildcard include/config/ARCH_HAS_PTE_SPECIAL) \
+    $(wildcard include/config/ASYNC_KERNEL_PGTABLE_FREE) \
+    $(wildcard include/config/SPLIT_PTE_PTLOCKS) \
+    $(wildcard include/config/HIGHPTE) \
+    $(wildcard include/config/DEBUG_VM_RB) \
+    $(wildcard include/config/PAGE_POISONING) \
+    $(wildcard include/config/INIT_ON_ALLOC_DEFAULT_ON) \
+    $(wildcard include/config/INIT_ON_FREE_DEFAULT_ON) \
+    $(wildcard include/config/DEBUG_PAGEALLOC) \
+    $(wildcard include/config/ARCH_WANT_OPTIMIZE_DAX_VMEMMAP) \
+    $(wildcard include/config/HUGETLBFS) \
+    $(wildcard include/config/MAPPING_DIRTY_HELPERS) \
+    $(wildcard include/config/MSEAL_SYSTEM_MAPPINGS) \
+    $(wildcard include/config/PAGE_POOL) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/pgalloc_tag.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/page_ext.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/stacktrace.h \
+    $(wildcard include/config/ARCH_STACKWALK) \
+    $(wildcard include/config/STACKTRACE) \
+    $(wildcard include/config/HAVE_RELIABLE_STACKTRACE) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/page_ref.h \
+    $(wildcard include/config/DEBUG_PAGE_REF) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/sizes.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/pgtable.h \
+    $(wildcard include/config/ARCH_HAS_NONLEAF_PMD_YOUNG) \
+    $(wildcard include/config/ARCH_HAS_HW_PTE_YOUNG) \
+    $(wildcard include/config/GUP_GET_PXX_LOW_HIGH) \
+    $(wildcard include/config/ARCH_WANT_PMD_MKWRITE) \
+    $(wildcard include/config/HAVE_ARCH_HUGE_VMAP) \
+    $(wildcard include/config/X86_ESPFIX64) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/memremap.h \
+    $(wildcard include/config/DEVICE_PRIVATE) \
+    $(wildcard include/config/PCI_P2PDMA) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/ioport.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/cacheinfo.h \
+    $(wildcard include/config/ACPI_PPTT) \
+    $(wildcard include/config/ARM) \
+    $(wildcard include/config/ARCH_HAS_CPU_CACHE_ALIASING) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/cpuhplock.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/huge_mm.h \
+    $(wildcard include/config/PGTABLE_HAS_HUGE_LEAVES) \
+    $(wildcard include/config/PERSISTENT_HUGE_ZERO_FOLIO) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/vmstat.h \
+    $(wildcard include/config/VM_EVENT_COUNTERS) \
+    $(wildcard include/config/DEBUG_TLBFLUSH) \
+    $(wildcard include/config/PER_VMA_LOCK_STATS) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/vm_event_item.h \
+    $(wildcard include/config/MEMORY_BALLOON) \
+    $(wildcard include/config/BALLOON_COMPACTION) \
+    $(wildcard include/config/X86) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/time_namespace.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/user_namespace.h \
+    $(wildcard include/config/INOTIFY_USER) \
+    $(wildcard include/config/FANOTIFY) \
+    $(wildcard include/config/BINFMT_MISC) \
+    $(wildcard include/config/PERSISTENT_KEYRINGS) \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/rculist_nulls.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/uts_namespace.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/uapi/linux/utsname.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/uapi/linux/net_namespace.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/proc_ns.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/linux/nsfs.h \
+  /usr/lib/modules/6.18.19-1-lts/build/include/uapi/linux/nsfs.h \
 
 proc_read.o: $(deps_proc_read.o)
 
