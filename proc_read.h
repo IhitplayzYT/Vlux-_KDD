@@ -27,6 +27,7 @@
 #define EP_name "vlux"
 #define BUFF_SZ 4096
 #define KBUFF_SZ (1 << 15)
+#define MAX_ARGS 5
 
 MODULE_AUTHOR("Ihit R Acharya");
 MODULE_LICENSE("GPL");
