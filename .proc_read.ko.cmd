@@ -1,1 +1,1 @@
-savedcmd_proc_read.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T /usr/lib/modules/6.18.19-1-lts/build/scripts/module.lds -o proc_read.ko proc_read.o proc_read.mod.o .module-common.o
+savedcmd_proc_read.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T /usr/lib/modules/6.18.41-1-lts/build/scripts/module.lds -o proc_read.ko proc_read.o proc_read.mod.o .module-common.o

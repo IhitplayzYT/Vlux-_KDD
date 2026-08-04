@@ -1,14 +1,17 @@
 #include "proc_read.h"
 #include "asm-generic/errno-base.h"
+#include "asm/processor.h"
+#include "asm/smp.h"
 #include "linux/atomic/atomic-instrumented.h"
 #include "linux/cpumask.h"
-#include "linux/cpumask_types.h"
 #include "linux/cred.h"
 #include "linux/dcache.h"
 #include "linux/elf.h"
 #include "linux/fdtable.h"
+#include "linux/fs.h"
 #include "linux/init.h"
 #include "linux/kern_levels.h"
+#include "linux/kstrtox.h"
 #include "linux/list.h"
 #include "linux/mm.h"
 #include "linux/mm_types.h"
@@ -192,7 +195,22 @@ static int my_open(struct inode *ino, struct file *fp) {
 
 
 
+static ssize_t populate_fs_info(char args[5][16]){
+  struct file_system_type fs;
+  get_filesystem(&fs);
+  
+  scnprintf(Kbuff, KBUFF_SZ, "======= FileSystem ======={\n"
+      "FileSystem Type: %s\n"
+      "}}\n"
+      "============================",
+      fs.name);
+  return 0;
+}
+
+
+
 static ssize_t my_read(struct file *fp, char __user *usr, size_t mx_cpy,loff_t *offset) {
+
   ssize_t remaining = KBUFF_SZ - cur_pos;
   if (*offset >= KBUFF_SZ) {
     return 0;
@@ -205,9 +223,34 @@ static ssize_t my_read(struct file *fp, char __user *usr, size_t mx_cpy,loff_t *
   return 0;
 }
 
-// TODO:
-// FIXME:
 static size_t populate_cpu_info(char args[5][16]) {
+  int cpu_id = 0;
+  if (kstrtoint(args[0], 10, &cpu_id) < 0){
+    sprintf(Kbuff, "Arg1 is Invalid");
+    return -EFAULT;
+  }
+  if (cpu_is_offline(cpu_id)){
+    sprintf(Kbuff, "Cpu id: %d is offline!",cpu_id);
+    return -EFAULT;   
+  }
+
+    struct cpuinfo_x86* cp_data = &cpu_data(cpu_id);
+
+      scnprintf(Kbuff, KBUFF_SZ,"=======CPU %d======={\n"
+      "Model Id: %s\n"
+      "Booted Cores: [%hu], Initialised: [%s]\n"
+      "Looping Rate: %lu loops/jiffy\n"
+      "Cache => [Size(KiB),Alignment,Mbm Offset,Flush Line Size]:[%u,%d,%d,%hu]\n"
+      "TLB Size => %d Pages\n"
+      "}}\n"
+      "============================",
+      cpu_id,
+      cp_data->x86_model_id,
+      cp_data->booted_cores,cp_data->initialized?"Yes":"No",
+      cp_data->loops_per_jiffy,
+      cp_data->x86_cache_size,cp_data->x86_cache_alignment,cp_data->x86_cache_mbm_width_offset,cp_data->x86_clflush_size,
+      cp_data->x86_tlbsize      
+      );
 
 return 0;
 }
@@ -241,7 +284,7 @@ if (strcmp(name,target) == 0) {
     get_fds(task);
     dump_nsproxy(task);
     get_mmap(task);
-    printk("=======Process: <%s>======={\n"
+    scnprintf(Kbuff,KBUFF_SZ,"=======Process: <%s>======={\n"
       "Status                 => %s\n"
       "ProcessConfig          => Flags(0x%x) Policy(%d)\n ExitCode(%d) ExitSignal(%d) ExitState(%d)"
       "ProcessIds             => [PiD,TGiD]: [%d, %d]\n"
@@ -290,7 +333,7 @@ if (strcmp(poid,target) == 0) {
     get_fds(task);
     dump_nsproxy(task);
     get_mmap(task);
-    printk("=======Process: <%s>======={\n"
+    scnprintf(Kbuff,KBUFF_SZ,"=======Process: <%s>======={\n"
       "Status                 => %s\n"
       "ProcessConfig          => Flags(0x%x) Policy(%d)\n ExitCode(%d) ExitSignal(%d) ExitState(%d)"
       "ProcessIds             => [PiD,TGiD]: [%d, %d]\n"
@@ -335,9 +378,6 @@ if (copy_from_user(query, target, 256)) {
  return -EFAULT;
 }
 
-
-
-
 char cmd[16],args[MAX_ARGS][16],*i = query;
 int cur = 0;
 
@@ -374,30 +414,24 @@ if (strcmp(cmd,"proc") == 0){
     printk(KERN_WARNING "Some Error might've occured!");
     return -EFAULT;
   }
+}else if (strcmp(cmd,"fs") == 0){
+  if (populate_fs_info(args) != 0) {
+    printk(KERN_WARNING "Some Error might've occured!");
+    return -EFAULT;
+  }
 }else{
     printk(KERN_ALERT "Invalid command provided to Vlux_-KDD !!");
     return -EFAULT;
 }
-
-
-
-
 return strlen(cmd);
 }
 
 
-
-
 static struct file_operations fops = {
     .read = my_read, 
-    .open = my_open, 
     .write = my_write,
     .owner = THIS_MODULE
   };
-
-
-
-
 
 static int __init init(void) {
   major_id = register_chrdev(0, EP_name, &fops);
